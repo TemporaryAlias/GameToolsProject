@@ -9,10 +9,14 @@ public class PlayerMover : MonoBehaviour {
 
     Camera cam;
 
+    Animator anim;
+
     public float forward, strafe;
 
 	void Start () {
         navAgent = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
+
         cam = Camera.main;
         navAgent.updateRotation = false;
     }
@@ -20,6 +24,9 @@ public class PlayerMover : MonoBehaviour {
 	void Update () {
         forward = navAgent.velocity.z / navAgent.speed;
         strafe = navAgent.velocity.x / navAgent.speed;
+
+        anim.SetFloat("Forward", forward);
+        anim.SetFloat("Strafe", strafe);
 
         if (Input.GetMouseButtonDown(0)) {
             Ray mouseRay = cam.ScreenPointToRay(Input.mousePosition);
