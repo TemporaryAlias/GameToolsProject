@@ -9,41 +9,29 @@ public class PlayerMover : MonoBehaviour {
 
     Rigidbody rb;
 
-    float forward, strafe;
+    Camera cam;
 
-    public float lerpSpeed, moveSpeed;
+    float forward, strafe, turn;
+
+    public float turnLerp, forwardLerp, moveSpeed;
     
 	void Start () {
         anim = GetComponentInChildren<Animator>();
+
+        cam = Camera.main;
 
         rb = GetComponent<Rigidbody>();
     }
 	
 	void Update () {
-        //forward = navAgent.velocity.z / navAgent.speed;
-        //strafe = navAgent.velocity.x / navAgent.speed;
+        forward = Input.GetAxis("Vertical");
+        strafe = Mathf.Lerp(strafe, Input.GetAxis("Horizontal"), turnLerp);
 
-        forward = Mathf.Lerp(forward, Input.GetAxis("Vertical"), lerpSpeed);
-        strafe = Mathf.Lerp(strafe, Input.GetAxis("Horizontal"), lerpSpeed);
-
-        rb.velocity = new Vector3(strafe * moveSpeed, 0, forward * moveSpeed);
+        rb.velocity = transform.forward * forward * moveSpeed;
+        transform.Rotate(new Vector3(0, strafe, 0), Space.World);
 
         anim.SetFloat("Forward", forward);
         anim.SetFloat("Strafe", strafe);
-
-        /*
-        if (Input.GetMouseButtonDown(0)) {
-            Ray mouseRay = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            Debug.DrawRay(cam.ScreenToWorldPoint(Input.mousePosition), Vector3.forward);
-
-            if (Physics.Raycast(mouseRay, out hit)) {
-                navAgent.SetDestination(hit.point);
-            }
-        }
-        */
-
 	}
 
 }
