@@ -11,13 +11,15 @@ public class PlayerMover : MonoBehaviour {
 
     NavMeshAgent navAgent;
 
-    bool movementFrozen, attacking;
+    bool movementFrozen, attacking, lockedOn;
+
+    Transform lockTarget = null;
 
     float forward, strafe, turn;
 
     public float strafeLerp, forwardLerp, moveSpeed, runSpeed, turnSpeed;
 
-    public Transform target;
+    public bool turnLock;
 
 	void Start () {
         anim = GetComponentInChildren<Animator>();
@@ -40,7 +42,23 @@ public class PlayerMover : MonoBehaviour {
                     rb.velocity = ((transform.forward * forward) + (transform.right * strafe)) * moveSpeed;
                 }
 
-                transform.Rotate(new Vector3(0, turn * turnSpeed, 0), Space.Self); 
+                if (!lockedOn) {
+                    if (!turnLock) {
+                        transform.Rotate(new Vector3(0, turn * turnSpeed, 0), Space.Self);
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.LeftShift)) {
+                        turnLock = !turnLock;
+                    }
+                } else {
+                    Vector3 targetPos = new Vector3(lockTarget.position.x, transform.position.y, lockTarget.position.z);
+
+                    transform.LookAt(targetPos);
+
+                    if (Input.GetKeyDown(KeyCode.LeftShift)) {
+                        Unlock();
+                    }
+                }
 
                 anim.SetFloat("Forward", forward);
                 anim.SetFloat("Strafe", strafe);
@@ -61,10 +79,34 @@ public class PlayerMover : MonoBehaviour {
                         navAgent.ResetPath();
                     }
                 }
+
+                if (Input.GetMouseButton(1)) {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
+                        if (hit.collider.gameObject.CompareTag("Enemy")) {
+                            LockOn(hit.transform);
+                        }
+                    }
+                }
             }
 
         }
 	}
+
+    void LockOn(Transform newTarget) {
+        turnLock = false;
+
+        lockTarget = newTarget;
+
+        lockedOn = true;
+    }
+
+    void Unlock() {
+        lockedOn = false;
+        lockTarget = null;
+    }
 
     void ChangeSwordState() {
         if (anim.GetBool("Sword Drawn")) {
