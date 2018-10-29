@@ -9,22 +9,18 @@ public class PlayerMover : MonoBehaviour {
 
     Rigidbody rb;
 
-    Camera cam;
-
     NavMeshAgent navAgent;
 
     bool movementFrozen, attacking;
 
     float forward, strafe, turn;
 
-    public float turnLerp, forwardLerp, moveSpeed, runSpeed;
+    public float strafeLerp, forwardLerp, moveSpeed, runSpeed, turnSpeed;
 
     public Transform target;
 
 	void Start () {
         anim = GetComponentInChildren<Animator>();
-
-        cam = Camera.main;
 
         navAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
@@ -35,15 +31,16 @@ public class PlayerMover : MonoBehaviour {
 
             if (!movementFrozen) {
                 forward = Input.GetAxis("Vertical");
-                strafe = Mathf.Lerp(strafe, Input.GetAxis("Horizontal"), turnLerp);
+                strafe = Mathf.Lerp(strafe, Input.GetAxis("Horizontal"), strafeLerp);
+                turn = (Input.mousePosition.x - (Screen.width / 2)) / Screen.width;
 
                 if (anim.GetBool("Sword Drawn")) {
-                    rb.velocity = transform.forward * forward * runSpeed;
+                    rb.velocity = ((transform.forward * forward) + (transform.right * strafe)) * runSpeed;
                 } else {
-                    rb.velocity = transform.forward * forward * moveSpeed;
+                    rb.velocity = ((transform.forward * forward) + (transform.right * strafe)) * moveSpeed;
                 }
 
-                transform.Rotate(new Vector3(0, strafe, 0), Space.World);
+                transform.Rotate(new Vector3(0, turn * turnSpeed, 0), Space.Self); 
 
                 anim.SetFloat("Forward", forward);
                 anim.SetFloat("Strafe", strafe);
@@ -68,14 +65,6 @@ public class PlayerMover : MonoBehaviour {
 
         }
 	}
-
-    public void OnCombatStart() {
-        navAgent.ResetPath();
-
-        if (!anim.GetBool("Sword Drawn")) {
-            ChangeSwordState();
-        }
-    }
 
     void ChangeSwordState() {
         if (anim.GetBool("Sword Drawn")) {

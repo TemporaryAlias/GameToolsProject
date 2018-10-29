@@ -17,13 +17,8 @@ public class LevelManager : MonoBehaviour {
     }
 
     public string gameState;
-    
-    public GameObject player;
 
-    public Enemy combatOpponant;
-    
-    [SerializeField] GameObject combatCenterPrefab;
-    public GameObject combatCenter;
+    public GameObject player;
 
     CinemachineVirtualCamera cmCamera;
 
@@ -39,30 +34,6 @@ public class LevelManager : MonoBehaviour {
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode) {
         cmCamera = Camera.main.GetComponent<CinemachineVirtualCamera>();
-    }
-
-    public void CombatStart(GameObject opponant) {
-        gameState = "Combat";
-
-        playerController = player.GetComponent<PlayerMover>();
-        playerController.OnCombatStart();
-
-        combatOpponant = opponant.GetComponent<Enemy>();
-        combatOpponant.OnCombatStart();
-
-        Vector3 combatCenterPoint = (player.transform.position + combatOpponant.transform.position) / 2;
-
-        combatCenter = Instantiate(combatCenterPrefab, combatCenterPoint, transform.rotation);
-
-        SetCameraFocusToPoint(combatCenter.transform);
-
-        List<Enemy> enemies = new List<Enemy>();
-
-        foreach (Enemy enemy in enemies) {
-            if (enemy.gameObject != combatOpponant) {
-                enemy.gameObject.SetActive(false);
-            }
-        }
     }
 
     public void SetCameraFocusToPoint(Transform newFocus) {
