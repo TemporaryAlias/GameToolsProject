@@ -13,14 +13,14 @@ public class PlayerMover : MonoBehaviour {
 
     NavMeshAgent navAgent;
 
-    bool movementFrozen;
+    bool movementFrozen, attacking;
 
     float forward, strafe, turn;
 
-    public LayerMask interactMask;
+    public float turnLerp, forwardLerp, moveSpeed, runSpeed;
 
-    public float turnLerp, forwardLerp, moveSpeed;
-    
+    public Transform target;
+
 	void Start () {
         anim = GetComponentInChildren<Animator>();
 
@@ -31,39 +31,51 @@ public class PlayerMover : MonoBehaviour {
     }
 
     void Update() {
-        if (!movementFrozen) {
-            forward = Input.GetAxis("Vertical");
-            strafe = Mathf.Lerp(strafe, Input.GetAxis("Horizontal"), turnLerp);
+        if (LevelManager.instance.gameState != "Combat") {
 
-            rb.velocity = transform.forward * forward * moveSpeed;
-            transform.Rotate(new Vector3(0, strafe, 0), Space.World);
+            if (!movementFrozen) {
+                forward = Input.GetAxis("Vertical");
+                strafe = Mathf.Lerp(strafe, Input.GetAxis("Horizontal"), turnLerp);
 
-            anim.SetFloat("Forward", forward);
-            anim.SetFloat("Strafe", strafe);
+                if (anim.GetBool("Sword Drawn")) {
+                    rb.velocity = transform.forward * forward * runSpeed;
+                } else {
+                    rb.velocity = transform.forward * forward * moveSpeed;
+                }
 
-            if (Input.GetKeyDown(KeyCode.Q)) {
-                ChangeSwordState();
-                FreezeMovement(true);
-            }
+                transform.Rotate(new Vector3(0, strafe, 0), Space.World);
 
-            if (Input.GetMouseButtonDown(0)) {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+                anim.SetFloat("Forward", forward);
+                anim.SetFloat("Strafe", strafe);
 
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~interactMask)) {
-                    StartCoroutine(Interaction(hit.collider.gameObject));
+                if (Input.GetKeyDown(KeyCode.Q)) {
+                    ChangeSwordState();
+                    FreezeMovement(true);
+                }
+
+                if (Input.GetMouseButtonDown(0) && !attacking && anim.GetBool("Sword Drawn")) {
+                    StartCoroutine("Attack");
+                }
+
+                if (navAgent.velocity != Vector3.zero) {
+                    anim.SetFloat("Forward", navAgent.velocity.z);
+
+                    if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) {
+                        navAgent.ResetPath();
+                    }
                 }
             }
 
-            if (navAgent.velocity != Vector3.zero) {
-                anim.SetFloat("Forward", navAgent.velocity.z);
-
-                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) {
-                    navAgent.ResetPath();
-                }
-            }
         }
 	}
+
+    public void OnCombatStart() {
+        navAgent.ResetPath();
+
+        if (!anim.GetBool("Sword Drawn")) {
+            ChangeSwordState();
+        }
+    }
 
     void ChangeSwordState() {
         if (anim.GetBool("Sword Drawn")) {
@@ -83,18 +95,14 @@ public class PlayerMover : MonoBehaviour {
         }
     }
 
-    IEnumerator Interaction(GameObject obj) {
-        navAgent.SetDestination(obj.transform.position);
+    IEnumerator Attack() {
+        attacking = true;
 
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, obj.transform.position) <= navAgent.stoppingDistance);
+        anim.SetTrigger("Attack");
 
-        switch (obj.tag) {
+        yield return new WaitForSeconds(1.2f);
 
-            default:
-                Debug.Log("Not a recognised tag!");
-                yield break;
-
-        }
+        attacking = false;
     }
 
 }

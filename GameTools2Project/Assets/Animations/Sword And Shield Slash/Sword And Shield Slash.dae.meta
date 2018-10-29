@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: edd2f3c9fb897dc40a9985a32c6e8eab
+guid: 20f65a1145c32a34499e1874d7695fb6
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -135,7 +135,7 @@ ModelImporter:
     400126: Spine1
     400128: Spine2
     400130: //RootNode
-    7400000: Withdraw Sword
+    7400000: Slash
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -166,7 +166,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Withdraw Sword
+      name: Slash
       takeName: Take 001
       firstFrame: 0
       lastFrame: 45
@@ -180,7 +180,7 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -189,8 +189,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.8310397
-        functionName: DrawSword
+      - time: 0.3633496
+        functionName: EnableDamage
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5168235
+        functionName: DisableDamage
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

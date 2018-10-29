@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SwordAnim : MonoBehaviour {
 
+    public Collider dmgHitbox;
+
     Animator anim;
 
     PlayerMover parentMover;
@@ -25,6 +27,14 @@ public class SwordAnim : MonoBehaviour {
         //disable ik
 
         parentMover.FreezeMovement(false);
+    }
+
+    public void EnableDamage() {
+        dmgHitbox.gameObject.SetActive(true);
+    }
+
+    public void DisableDamage() {
+        dmgHitbox.gameObject.SetActive(false);
     }
 
 }
