@@ -6,19 +6,33 @@ public class CharacterStats : MonoBehaviour {
 
     public int maxHealthPoints; 
     public int damageDealt;
+    public int invulnTime = 2;
 
-    int healthPoints;
+    public bool invuln;
+
+    public int healthPoints;
 
     void Start() {
         healthPoints = maxHealthPoints;
     }
 
     public void TakeDamage(int damageDone) {
-        healthPoints -= damageDone;
+        if (!invuln) {
+            healthPoints -= damageDone;
+            StartCoroutine("InvulnTimer");
+        }
 
         if (healthPoints <= 0) {
             StartCoroutine("Die");
         }
+    }
+
+    IEnumerator InvulnTimer() {
+        invuln = true;
+
+        yield return new WaitForSeconds(invulnTime);
+
+        invuln = false;
     }
 
     public void Heal(int healing) {

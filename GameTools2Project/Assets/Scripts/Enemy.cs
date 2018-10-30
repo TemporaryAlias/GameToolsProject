@@ -9,13 +9,16 @@ public class Enemy : MonoBehaviour {
     public float attackRadius;
     public float attackCooldown;
 
-    public Collider dmgHitbox;
+    public bool attacking;
 
     NavMeshAgent navAgent;
+
+    Animator anim;
 
     bool cooldown;
 
 	void Start () {
+        anim = GetComponentInChildren<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
 	}
 	
@@ -24,16 +27,25 @@ public class Enemy : MonoBehaviour {
 
         foreach (RaycastHit hit in hits) {
             if (hit.collider.gameObject.CompareTag("Player")) {
-                float dist = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position);
+                if (!attacking) {
+                    float dist = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position);
 
-                if (dist > attackRadius) {
-                    navAgent.SetDestination(hit.collider.gameObject.transform.position);
-                } else {
-                    navAgent.ResetPath();
-                    AttemptAttack(hit.collider.gameObject);
+                    Vector3 targetPos = new Vector3(hit.transform.position.x, transform.position.y, hit.transform.position.z);
+
+                    transform.LookAt(targetPos);
+
+                    if (dist > attackRadius) {
+                        navAgent.SetDestination(hit.collider.gameObject.transform.position);
+                    } else {
+                        navAgent.ResetPath();
+                        AttemptAttack(hit.collider.gameObject);
+                    }
                 }
             }
         }
+
+        anim.SetFloat("Velocity Z", navAgent.velocity.z);
+        anim.SetFloat("Velocity X", navAgent.velocity.x);
     }
 
     void OnDrawGizmos() {
@@ -52,19 +64,11 @@ public class Enemy : MonoBehaviour {
 
     IEnumerator Attack() {
         cooldown = true;
-        Debug.Log("Attacking!");
+        anim.SetTrigger("Attack");
 
         yield return new WaitForSeconds(attackCooldown);
 
         cooldown = false;
-    }
-
-    void EnableDamage() {
-        dmgHitbox.gameObject.SetActive(true);
-    }
-
-    void DisableDamage() {
-        dmgHitbox.gameObject.SetActive(false);
     }
 
 }
