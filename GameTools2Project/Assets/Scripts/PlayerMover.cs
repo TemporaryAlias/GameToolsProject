@@ -17,9 +17,9 @@ public class PlayerMover : MonoBehaviour {
 
     float forward, strafe, turn;
 
-    public float strafeLerp, forwardLerp, moveSpeed, runSpeed, turnSpeed;
+    public float strafeLerp, forwardLerp, moveSpeed, runSpeed, turnSpeed, attackCooldown;
 
-    public bool turnLock;
+    public bool turnLock, dead;
 
 	void Start () {
         anim = GetComponentInChildren<Animator>();
@@ -31,7 +31,7 @@ public class PlayerMover : MonoBehaviour {
     void Update() {
         if (LevelManager.instance.gameState != "Combat") {
 
-            if (!movementFrozen) {
+            if (!movementFrozen && !dead) {
                 forward = Input.GetAxis("Vertical");
                 strafe = Mathf.Lerp(strafe, Input.GetAxis("Horizontal"), strafeLerp);
                 turn = (Input.mousePosition.x - (Screen.width / 2)) / Screen.width;
@@ -103,7 +103,7 @@ public class PlayerMover : MonoBehaviour {
         lockedOn = true;
     }
 
-    void Unlock() {
+    public void Unlock() {
         lockedOn = false;
         lockTarget = null;
     }
@@ -131,7 +131,7 @@ public class PlayerMover : MonoBehaviour {
 
         anim.SetTrigger("Attack");
 
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(attackCooldown);
 
         attacking = false;
     }

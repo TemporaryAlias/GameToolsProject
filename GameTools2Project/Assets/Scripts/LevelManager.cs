@@ -18,11 +18,10 @@ public class LevelManager : MonoBehaviour {
 
     public string gameState;
 
-    public GameObject player;
+    public PlayerMover player;
 
     CinemachineVirtualCamera cmCamera;
 
-    PlayerMover playerController;
 
     void Start () {
 		
@@ -34,10 +33,17 @@ public class LevelManager : MonoBehaviour {
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode) {
         cmCamera = Camera.main.GetComponent<CinemachineVirtualCamera>();
+
+        player = FindObjectOfType<PlayerMover>();
     }
 
     public void SetCameraFocusToPoint(Transform newFocus) {
         cmCamera.m_LookAt = newFocus;
+    }
+
+    public void ResetScene() {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
     }
 
 }

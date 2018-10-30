@@ -12,18 +12,23 @@ public class CharacterStats : MonoBehaviour {
 
     public int healthPoints;
 
+    Animator anim;
+
     void Start() {
         healthPoints = maxHealthPoints;
+
+        anim = GetComponentInChildren<Animator>();
     }
 
     public void TakeDamage(int damageDone) {
         if (!invuln) {
+            anim.SetTrigger("Hit");
             healthPoints -= damageDone;
             StartCoroutine("InvulnTimer");
         }
 
         if (healthPoints <= 0) {
-            StartCoroutine("Die");
+            anim.SetTrigger("Die");
         }
     }
 
@@ -41,10 +46,6 @@ public class CharacterStats : MonoBehaviour {
         if (healthPoints > maxHealthPoints) {
             healthPoints = maxHealthPoints;
         }
-    }
-
-    IEnumerator Die() {
-        yield return new WaitForSeconds(1);
     }
 
 }

@@ -37,4 +37,21 @@ public class SwordAnim : MonoBehaviour {
         dmgHitbox.gameObject.SetActive(false);
     }
 
+    public IEnumerator Death() {
+        parentMover.dead = true;
+
+        yield return new WaitForSeconds(5);
+
+        LevelManager.instance.ResetScene();
+    }
+
+    public void Stun() {
+        DisableDamage();
+        parentMover.FreezeMovement(true);
+    }
+
+    public void Unstun() {
+        parentMover.FreezeMovement(false);
+    }
+
 }

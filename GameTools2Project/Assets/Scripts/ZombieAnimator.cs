@@ -22,4 +22,22 @@ public class ZombieAnimator : MonoBehaviour {
         dmgHitbox.gameObject.SetActive(false);
     }
 
+    public IEnumerator Die() {
+        parentEnemy.dead = true;
+        LevelManager.instance.player.Unlock();
+
+        yield return new WaitForSeconds(5);
+
+        Destroy(parentEnemy.gameObject);
+    }
+
+    public void Stun() {
+        DisableDamage();
+        parentEnemy.stunned = true;
+    }
+
+    public void Unstun() {
+        parentEnemy.stunned = false;
+    }
+
 }

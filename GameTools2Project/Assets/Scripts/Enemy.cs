@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour {
     public float attackRadius;
     public float attackCooldown;
 
-    public bool attacking;
+    public bool attacking, dead, stunned;
 
     NavMeshAgent navAgent;
 
@@ -23,29 +23,31 @@ public class Enemy : MonoBehaviour {
 	}
 	
 	void Update () {
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, alertRadius, Vector3.up);
+        if (!dead && !stunned) {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, alertRadius, Vector3.up);
 
-        foreach (RaycastHit hit in hits) {
-            if (hit.collider.gameObject.CompareTag("Player")) {
-                if (!attacking) {
-                    float dist = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position);
+            foreach (RaycastHit hit in hits) {
+                if (hit.collider.gameObject.CompareTag("Player")) {
+                    if (!attacking) {
+                        float dist = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position);
 
-                    Vector3 targetPos = new Vector3(hit.transform.position.x, transform.position.y, hit.transform.position.z);
+                        Vector3 targetPos = new Vector3(hit.transform.position.x, transform.position.y, hit.transform.position.z);
 
-                    transform.LookAt(targetPos);
+                        transform.LookAt(targetPos);
 
-                    if (dist > attackRadius) {
-                        navAgent.SetDestination(hit.collider.gameObject.transform.position);
-                    } else {
-                        navAgent.ResetPath();
-                        AttemptAttack(hit.collider.gameObject);
+                        if (dist > attackRadius) {
+                            navAgent.SetDestination(hit.collider.gameObject.transform.position);
+                        } else {
+                            navAgent.ResetPath();
+                            AttemptAttack(hit.collider.gameObject);
+                        }
                     }
                 }
             }
-        }
 
-        anim.SetFloat("Velocity Z", navAgent.velocity.z);
-        anim.SetFloat("Velocity X", navAgent.velocity.x);
+            anim.SetFloat("Velocity Z", navAgent.velocity.z);
+            anim.SetFloat("Velocity X", navAgent.velocity.x);
+        }
     }
 
     void OnDrawGizmos() {
