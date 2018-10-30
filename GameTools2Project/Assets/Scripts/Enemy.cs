@@ -28,12 +28,12 @@ public class Enemy : MonoBehaviour {
 
             foreach (RaycastHit hit in hits) {
                 if (hit.collider.gameObject.CompareTag("Player")) {
+
+                    Vector3 targetPos = new Vector3(hit.transform.position.x, transform.position.y, hit.transform.position.z);
+                    Vector3.RotateTowards(transform.position, targetPos, 0, 0);
+
                     if (!attacking) {
-                        float dist = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position);
-
-                        Vector3 targetPos = new Vector3(hit.transform.position.x, transform.position.y, hit.transform.position.z);
-
-                        transform.LookAt(targetPos);
+                        float dist = Vector3.Distance(transform.position, hit.collider.gameObject.transform.position); 
 
                         if (dist > attackRadius) {
                             navAgent.SetDestination(hit.collider.gameObject.transform.position);

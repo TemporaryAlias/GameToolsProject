@@ -6,25 +6,33 @@ public class SwordAnim : MonoBehaviour {
 
     public Collider dmgHitbox;
 
+    public GameObject swordSheathed;
+    public GameObject swordHeld;
+
     Animator anim;
 
     PlayerMover parentMover;
 
 	void Start () {
+        swordSheathed.SetActive(true);
+        swordHeld.SetActive(false);
+
         anim = GetComponent<Animator>();
 
         parentMover = GetComponentInParent<PlayerMover>();
 	}
     
     public void DrawSword() {
-        //enable ik
+        swordSheathed.SetActive(false);
+        swordHeld.SetActive(true);
 
         anim.SetBool("Sword Drawn", true);
         parentMover.FreezeMovement(false);
     }
 
     public void SheathSword() {
-        //disable ik
+        swordSheathed.SetActive(true);
+        swordHeld.SetActive(false);
 
         parentMover.FreezeMovement(false);
     }
