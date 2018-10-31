@@ -23,11 +23,13 @@ public class SwordAnim : MonoBehaviour {
 	}
     
     public void DrawSword() {
-        swordSheathed.SetActive(false);
-        swordHeld.SetActive(true);
-
         anim.SetBool("Sword Drawn", true);
         parentMover.FreezeMovement(false);
+    }
+
+    public void SwordChangeToDrawn() { 
+        swordSheathed.SetActive(false);
+        swordHeld.SetActive(true);
     }
 
     public void SheathSword() {
