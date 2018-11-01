@@ -48,4 +48,20 @@ public class LevelManager : MonoBehaviour {
         SceneManager.LoadScene(currentScene.buildIndex);
     }
 
+    public void EndLevelReset() {
+        StartCoroutine("EndReset");
+    }
+
+    IEnumerator EndReset() {
+        LevelManager.instance.uiHandler.StartFadeOut();
+        player.FreezeMovement(true);
+
+        CharacterStats pStats = player.GetComponent<CharacterStats>();
+        pStats.invuln = true;
+
+        yield return new WaitForSeconds(4);
+
+        ResetScene();
+    }
+
 }

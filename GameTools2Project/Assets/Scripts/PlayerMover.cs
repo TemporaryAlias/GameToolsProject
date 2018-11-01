@@ -52,12 +52,14 @@ public class PlayerMover : MonoBehaviour {
                         turnLock = !turnLock;
                     }
                 } else {
-                    Vector3 targetPos = new Vector3(lockTarget.position.x, transform.position.y, lockTarget.position.z);
-
-                    transform.LookAt(targetPos);
-
                     if (Input.GetKeyDown(KeyCode.LeftShift)) {
                         Unlock();
+                    }
+
+                    if (lockTarget != null) {
+                        Vector3 targetPos = new Vector3(lockTarget.position.x, transform.position.y, lockTarget.position.z);
+
+                        transform.LookAt(targetPos);
                     }
                 }
 
