@@ -20,6 +20,8 @@ public class LevelManager : MonoBehaviour {
 
     public PlayerMover player;
 
+    public UIHandler uiHandler;
+
     CinemachineVirtualCamera cmCamera;
 
 

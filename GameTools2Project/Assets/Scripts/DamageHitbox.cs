@@ -15,10 +15,18 @@ public class DamageHitbox : MonoBehaviour {
 	}
 
     void OnTriggerStay(Collider other) {
-        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player")) {
-            CharacterStats otherStats = other.gameObject.GetComponent<CharacterStats>();
+        if (!LevelManager.instance.player.dead) {
+            if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player")) {
+                CharacterStats otherStats = other.gameObject.GetComponent<CharacterStats>();
 
-            otherStats.TakeDamage(parentStats.damageDealt);
+                otherStats.TakeDamage(parentStats.damageDealt);
+            }
+
+            if (other.gameObject.CompareTag("Breakable")) {
+                Breakable breakObj = other.gameObject.GetComponent<Breakable>();
+
+                breakObj.Break();
+            }
         }
     }
 

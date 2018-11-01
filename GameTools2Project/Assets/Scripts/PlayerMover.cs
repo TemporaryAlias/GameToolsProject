@@ -48,6 +48,7 @@ public class PlayerMover : MonoBehaviour {
                     }
 
                     if (Input.GetKeyDown(KeyCode.LeftShift)) {
+                        LevelManager.instance.uiHandler.RotLockChange();
                         turnLock = !turnLock;
                     }
                 } else {

@@ -48,11 +48,17 @@ public class SwordAnim : MonoBehaviour {
     }
 
     public IEnumerator Death() {
-        parentMover.dead = true;
+        if (!parentMover.dead) {
+            parentMover.dead = true;
 
-        yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(4);
 
-        LevelManager.instance.ResetScene();
+            LevelManager.instance.uiHandler.StartFadeOut();
+
+            yield return new WaitForSeconds(4);
+
+            LevelManager.instance.ResetScene();
+        }
     }
 
     public void Stun() {
