@@ -9,9 +9,10 @@ public class UIHandler : MonoBehaviour {
 
     public Sprite rotLocked, rotUnlocked;
 
+    public Text playerHP;
+
     public float fadeTime; 
     
-
     Color fadeColour;
 
 	void Start () {
@@ -19,6 +20,12 @@ public class UIHandler : MonoBehaviour {
         StartCoroutine("FadeIn");
 
         rotLockNotif.sprite = rotUnlocked;
+    }
+
+    void Update() {
+        CharacterStats pStats = LevelManager.instance.player.GetComponent<CharacterStats>();
+
+        playerHP.text = "HP: " + pStats.healthPoints + "/" + pStats.maxHealthPoints;
     }
 
     public void StartFadeOut() {
