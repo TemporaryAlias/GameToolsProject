@@ -2480,6 +2480,8 @@ MonoBehaviour:
   invulnTime: 2
   invuln: 0
   healthPoints: 0
+  hitClip: {fileID: 8300000, guid: 626a8e5109b2ed94d96875d94401d307, type: 3}
+  deathClip: {fileID: 8300000, guid: e70170083297f6541a7ed59a5cda665d, type: 3}
 --- !u!114 &114552542782973624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2494,6 +2496,9 @@ MonoBehaviour:
   dmgHitbox: {fileID: 65459692694461544}
   swordSheathed: {fileID: 1810879041333448}
   swordHeld: {fileID: 1884152339534474}
+  attackClip: {fileID: 8300000, guid: 46182b1e465487f4ab344c00a6094cd0, type: 3}
+  swordStateClip: {fileID: 8300000, guid: 519d77622ad5b1048be5b2c0e2ff1e56, type: 3}
+  footstepClip: {fileID: 8300000, guid: 0a0cbfc531ecb1b42aafdd7fc1a2eed1, type: 3}
 --- !u!114 &114573398516065564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2524,6 +2529,7 @@ MonoBehaviour:
   attackCooldown: 0
   turnLock: 0
   dead: 0
+  lockClip: {fileID: 8300000, guid: ab13eea8e764ba64b9f47aa2b471c5d2, type: 3}
 --- !u!137 &137357303778096518
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

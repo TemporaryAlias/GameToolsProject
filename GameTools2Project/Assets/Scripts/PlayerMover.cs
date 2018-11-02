@@ -21,6 +21,8 @@ public class PlayerMover : MonoBehaviour {
 
     public bool turnLock, dead;
 
+    public AudioClip lockClip;
+
 	void Start () {
         anim = GetComponentInChildren<Animator>();
 
@@ -99,6 +101,10 @@ public class PlayerMover : MonoBehaviour {
 	}
 
     void LockOn(Transform newTarget) {
+        if (!lockedOn) { 
+            LevelManager.instance.PlaySoundClip(lockClip);
+        }
+
         turnLock = false;
 
         lockTarget = newTarget;

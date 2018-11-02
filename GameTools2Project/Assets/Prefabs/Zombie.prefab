@@ -2847,6 +2847,8 @@ MonoBehaviour:
   invulnTime: 2
   invuln: 0
   healthPoints: 0
+  hitClip: {fileID: 8300000, guid: bbba00837dd3ce3478b5697d37e98c2b, type: 3}
+  deathClip: {fileID: 8300000, guid: d3f6c98d2aed08e4db47d61c72d43233, type: 3}
 --- !u!114 &114342432662943696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2859,6 +2861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dmgHitbox: {fileID: 65820896549674826}
+  footstepClip: {fileID: 8300000, guid: 0a0cbfc531ecb1b42aafdd7fc1a2eed1, type: 3}
 --- !u!114 &114587592908735618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2876,6 +2879,7 @@ MonoBehaviour:
   attacking: 0
   dead: 0
   stunned: 0
+  attackClip: {fileID: 8300000, guid: 6c7c9328aa8a1004ab214fc597abcbc8, type: 3}
 --- !u!114 &114775458594576228
 MonoBehaviour:
   m_ObjectHideFlags: 1

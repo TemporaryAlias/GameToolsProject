@@ -24,9 +24,10 @@ public class LevelManager : MonoBehaviour {
 
     CinemachineVirtualCamera cmCamera;
 
+    AudioSource audioSource;
 
     void Start () {
-		
+        audioSource = GetComponent<AudioSource>();
 	}
 	
 	void Update () {
@@ -62,6 +63,10 @@ public class LevelManager : MonoBehaviour {
         yield return new WaitForSeconds(4);
 
         ResetScene();
+    }
+
+    public void PlaySoundClip(AudioClip clip) {
+        audioSource.PlayOneShot(clip);
     }
 
 }

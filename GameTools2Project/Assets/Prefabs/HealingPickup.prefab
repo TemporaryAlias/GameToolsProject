@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healAmount: 2
   healEffect: {fileID: 1873093367352830, guid: 318465fbb1bb51d44a2284d97fa71fe3, type: 2}
+  healClip: {fileID: 8300000, guid: 339e5c29fbbc4d841848be61a9490e01, type: 3}
 --- !u!135 &135764062673016004
 SphereCollider:
   m_ObjectHideFlags: 1

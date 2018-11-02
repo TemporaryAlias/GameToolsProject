@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour {
 
     public bool attacking, dead, stunned;
 
+    public AudioClip attackClip;
+
     NavMeshAgent navAgent;
 
     Animator anim;
@@ -65,6 +67,7 @@ public class Enemy : MonoBehaviour {
     }
 
     IEnumerator Attack() {
+        LevelManager.instance.PlaySoundClip(attackClip);
         cooldown = true;
         anim.SetTrigger("Attack");
 

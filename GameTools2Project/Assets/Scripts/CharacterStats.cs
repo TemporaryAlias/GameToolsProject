@@ -12,7 +12,11 @@ public class CharacterStats : MonoBehaviour {
 
     public int healthPoints;
 
+    public AudioClip hitClip, deathClip;
+
     Animator anim;
+
+    bool dead;
 
     void Start() {
         healthPoints = maxHealthPoints;
@@ -24,11 +28,17 @@ public class CharacterStats : MonoBehaviour {
         if (!invuln) {
             anim.SetTrigger("Hit");
             healthPoints -= damageDone;
+            LevelManager.instance.PlaySoundClip(hitClip);
             StartCoroutine("InvulnTimer");
         }
 
         if (healthPoints <= 0) {
             anim.SetTrigger("Die");
+
+            if (!dead) {
+                LevelManager.instance.PlaySoundClip(deathClip);
+                dead = true;
+            } 
         }
     }
 

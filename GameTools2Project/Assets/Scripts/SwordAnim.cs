@@ -9,6 +9,8 @@ public class SwordAnim : MonoBehaviour {
     public GameObject swordSheathed;
     public GameObject swordHeld;
 
+    public AudioClip attackClip, swordStateClip, footstepClip;
+
     Animator anim;
 
     PlayerMover parentMover;
@@ -27,7 +29,8 @@ public class SwordAnim : MonoBehaviour {
         parentMover.FreezeMovement(false);
     }
 
-    public void SwordChangeToDrawn() { 
+    public void SwordChangeToDrawn() {
+        LevelManager.instance.PlaySoundClip(swordStateClip);
         swordSheathed.SetActive(false);
         swordHeld.SetActive(true);
     }
@@ -35,12 +38,14 @@ public class SwordAnim : MonoBehaviour {
     public void SheathSword() {
         swordSheathed.SetActive(true);
         swordHeld.SetActive(false);
+        LevelManager.instance.PlaySoundClip(swordStateClip);
 
         parentMover.FreezeMovement(false);
     }
 
     public void EnableDamage() {
         dmgHitbox.gameObject.SetActive(true);
+        LevelManager.instance.PlaySoundClip(attackClip);
     }
 
     public void DisableDamage() {
@@ -68,6 +73,10 @@ public class SwordAnim : MonoBehaviour {
 
     public void Unstun() {
         parentMover.FreezeMovement(false);
+    }
+
+    public void Footstep() {
+        LevelManager.instance.PlaySoundClip(footstepClip);
     }
 
 }

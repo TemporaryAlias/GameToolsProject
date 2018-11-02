@@ -6,6 +6,8 @@ public class ZombieAnimator : MonoBehaviour {
 
     public Collider dmgHitbox;
 
+    public AudioClip footstepClip;
+
     Enemy parentEnemy;
 
     private void Start() {
@@ -38,6 +40,10 @@ public class ZombieAnimator : MonoBehaviour {
 
     public void Unstun() {
         parentEnemy.stunned = false;
+    }
+
+    public void Footstep() {
+        LevelManager.instance.PlaySoundClip(footstepClip);
     }
 
 }

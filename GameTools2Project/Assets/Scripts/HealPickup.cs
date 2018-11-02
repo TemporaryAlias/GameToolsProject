@@ -8,10 +8,14 @@ public class HealPickup : MonoBehaviour {
 
     public GameObject healEffect;
 
+    public AudioClip healClip;
+
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Player")) {
-            CharacterStats pStats = other.gameObject.GetComponent<CharacterStats>();
+            LevelManager.instance.PlaySoundClip(healClip);
 
+            CharacterStats pStats = other.gameObject.GetComponent<CharacterStats>();
+            
             pStats.Heal(healAmount);
             Instantiate(healEffect, transform.position, transform.rotation);
 

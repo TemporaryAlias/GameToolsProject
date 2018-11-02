@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakEffect: {fileID: 1115387226343408, guid: f12dd55b171f44a4ab158657584a2d19,
     type: 2}
+  breakClip: {fileID: 8300000, guid: 6d4df08cbeb180f4cbf06115f6d98c67, type: 3}
 --- !u!136 &136795712664401208
 CapsuleCollider:
   m_ObjectHideFlags: 1

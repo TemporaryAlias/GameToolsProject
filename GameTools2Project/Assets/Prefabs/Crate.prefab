@@ -37,7 +37,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1975293913855466}
-  m_LocalRotation: {x: -0, y: -0.19568275, z: -0, w: 0.98066723}
+  m_LocalRotation: {x: 0, y: -0.19568092, z: 0, w: 0.9806677}
   m_LocalPosition: {x: 78.75, y: 30.75, z: 21.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -111,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakEffect: {fileID: 1115387226343408, guid: f12dd55b171f44a4ab158657584a2d19,
     type: 2}
+  breakClip: {fileID: 8300000, guid: 6d4df08cbeb180f4cbf06115f6d98c67, type: 3}
 --- !u!208 &208709251657699896
 NavMeshObstacle:
   m_ObjectHideFlags: 1
